@@ -305,16 +305,19 @@ set showtabline=2  " always show tabline
 
 " lightline-buffer ui settings
 " replace these symbols with ascii characters if your environment does not support unicode
-"let g:lightline_buffer_logo = ' '
-let g:lightline_buffer_readonly_icon = ''
-let g:lightline_buffer_modified_icon = ''
-let g:lightline_buffer_git_icon = ' '
-let g:lightline_buffer_ellipsis_icon = '..'
-let g:lightline_buffer_expand_left_icon = '◀ '
-let g:lightline_buffer_expand_right_icon = ' ▶'
-let g:lightline_buffer_active_buffer_left_icon = ''
-let g:lightline_buffer_active_buffer_right_icon = ''
-let g:lightline_buffer_separator_icon = '  '
+" let g:lightline.buffer_logo = ' '
+" let g:lightline.buffer_readonly_icon = ''
+" let g:lightline.buffer_modified_icon = ''
+" let g:lightline.buffer_git_icon = ' '
+" let g:lightline.buffer_ellipsis_icon = '..'
+" let g:lightline.buffer_expand_left_icon = '◀ '
+" let g:lightline.buffer_expand_right_icon = ' ▶'
+" let g:lightline.buffer_active_buffer_left_icon = ''
+" let g:lightline.buffer_active_buffer_right_icon = ''
+" let g:lightline.buffer_separator_icon = '  '
+let g:lightline.branch_symbol = ' '
+let g:lightline.separator = { 'left': '', 'right': ''}
+let g:lightline.subseparator = { 'left': '|', 'right': '|' }
 
 " lightline-buffer function settings
 let g:lightline_buffer_show_bufnr = 0
@@ -351,3 +354,16 @@ set termguicolors
 
 set laststatus=2
 
+
+" Enable spellchecking in natural language files
+augroup NaturalLanguage
+    autocmd!
+    autocmd BufRead,BufNewFile *.md,*.rst,*.txt setlocal spell spelllang=en_us
+    autocmd FileType gitcommit setlocal spell spelllang=en_us
+augroup END
+
+" Only allow sourcing of unsafe commands if such files are owned by my user
+set secure
+
+" Prefer python3 when both can be used
+set pyx=3
