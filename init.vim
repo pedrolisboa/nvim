@@ -6,6 +6,14 @@ filetype plugin indent on
 set relativenumber 
 set encoding=utf-8
 set clipboard=unnamedplus
+set scrolloff=2
+
+" For color correction on tmux
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
 au BufNewFile,BufRead *.py
     \ set expandtab       |" replace tabs with spaces
@@ -22,6 +30,8 @@ Plug 'itchyny/lightline.vim'                                            " Lightw
 Plug 'majutsushi/tagbar'                                                " Open tag navigation split with :Tagbar
 Plug 'ryanoasis/vim-devicons'                                           " For file icons in lots of plugins
 Plug 'sheerun/vim-polyglot'                                             " Add syntax highlighting for a large range of filetypes
+
+Plug 'jpalardy/vim-slime'                            			" Send code to tmux pane
 
 " Python
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}			" Python semantic highlighting
@@ -253,6 +263,12 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+" ##############################################
+" vim-slime
+" #############################################
+
+let g:slime_target = "tmux"
+" let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.1"}
 
 " Visual
 
@@ -273,8 +289,11 @@ let g:lightline = {
 	      \              [ 'fileformat', 'fileencoding', 'filetype'] ]
       \   },
       \ 'component_function': {
-      \   'gitbranch': 'fugitive#head',
       \   'bufferinfo': 'lightline#buffer#bufferinfo',
+      \   'filetype' : 'MyFiletype',
+      \   'fileformat' : 'MyFileformat',
+      \   'readonly': 'LightlineReadonly',
+      \   'gitbranch': 'LightlineFugitive',
       \ },
       \ 'tab': {
       \   'active': [ 'filename', 'modified' ],
@@ -294,10 +313,8 @@ let g:lightline = {
       \   'bufferbefore': 'raw',
       \   'bufferafter': 'raw',
       \ },
-      \ 'component': {
       \   'separator': '',
       \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}',
-      \ },
       \ }
 
 function! LightlineReadonly()
@@ -353,6 +370,15 @@ let g:lightline_buffer_minflen = 16
 let g:lightline_buffer_minfextlen = 3
 let g:lightline_buffer_reservelen = 20
 
+"let g:separator.left		''		'' (\ue0b0)		'⮀' (\u2b80)
+"let g	separator.right		''		'' (\ue0b2)		'⮂' (\u2b82)
+"let g	subseparator.left	'|'		'' (\ue0b1)		'⮁' (\u2b81)
+"let g	subseparator.right	'|'		'' (\ue0b3)		'⮃' (\u2b83)
+"let g	branch symbol		--		'' (\ue0a0)		'⭠' (\u2b60)
+"let g	readonly symbol		--		'' (\ue0a2)		'⭤' (\u2b64)
+"let g	linecolumn symbol	--		'' (\ue0a1)		'⭡' (\u2b61)
+
+
 
 let g:semshi#excluded_hl_groups = ['local']
 let g:semshi#mark_selected_nodes = 1
@@ -389,3 +415,10 @@ set secure
 
 " Prefer python3 when both can be used
 set pyx=3
+
+" #############################################
+" Neovim terminal config
+" #############################################
+
+
+tnoremap jk <C-\><C-n>
