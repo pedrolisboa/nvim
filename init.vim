@@ -300,6 +300,28 @@ let g:lightline = {
       \ },
       \ }
 
+function! LightlineReadonly()
+	return &readonly ? '' : ''
+endfunction
+function! LightlineFugitive()
+	if exists('*FugitiveHead')
+		let branch = FugitiveHead()
+		return branch !=# '' ? ''.branch : ''
+	endif
+	return ''
+endfunction
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
+" Use auocmd to force lightline update when coc.nvim status changes.
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
 """" lightline-buffer
 set showtabline=2  " always show tabline
 
