@@ -3,7 +3,7 @@ let mapleader = " "
 
 filetype plugin indent on
 
-set relativenumber 
+set number relativenumber
 set encoding=utf-8
 set clipboard=unnamedplus
 set scrolloff=2
