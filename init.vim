@@ -2,11 +2,14 @@ inoremap jk <ESC>
 let mapleader = " "
 
 filetype plugin indent on
+set runtimepath^=~/.config/nvim/pack/ack
 
 set number relativenumber
 set encoding=utf-8
 set clipboard=unnamedplus
 set scrolloff=2
+set tabstop=4
+set shiftwidth=4
 
 " For color correction on tmux
 if exists('+termguicolors')
@@ -15,12 +18,28 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
+" tasks
+nnoremap <leader>t :Ag FIXME\|TODO<cr>
+
+nnoremap ` $
+vnoremap . :norm.<CR>
+
 au BufNewFile,BufRead *.py
     \ set expandtab       |" replace tabs with spaces
     \ set autoindent      |" copy indent when starting a new line
     \ set tabstop=4
     \ set softtabstop=4
     \ set shiftwidth=4
+
+au BufNewFile,BufRead *.rs
+    \ set expandtab       |" replace tabs with spaces
+    \ set autoindent      |" copy indent when starting a new line
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+
+" au BufNewFile,BufRead *.sh 
+"     \ set softtabstop=4
 
 " Plug package installation
 "
